@@ -102,27 +102,39 @@ public class MainActivity extends AppCompatActivity {
                         case "/":
                             divide();
                             break;
+                        case "=":
+                            equal();
+                            break;
                     }
                 }
         }
     }
 
+    //todo            firstValues + operation + secondValues + "=" + result
+    //todo            append("=" + result.toString());
+
     public void plus() {
         result = firstValues + secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
     }
 
     public void divide() {
         result = firstValues / secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
 
     }
     public void multiply2() {
         result = firstValues * secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
     }
     public void minus() {
         result = firstValues - secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
     }
+    public void equal() {
+        result = null;
+        result_field.setText("resultat");
+    }
+
+
 }
