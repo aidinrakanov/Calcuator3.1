@@ -3,21 +3,54 @@ package com.example.calcuator31;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.content.pm.ActivityInfo;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView result_field;
-    Double firstValues, secondValues, result;
+    Double firstValues;
+    Double secondValues;
+    Double result;
     String operation;
+    String savedString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        result_field = findViewById(R.id.result);
+        result_field = findViewById(R.id.result1);
+        if (savedInstanceState != null){
+            savedString = savedInstanceState.getString("savedString");
 
+            result_field.setText(savedString);
+            Log.d("ololo","onCreate"+ savedString);
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("ololo","onStart");
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("ololo","onStop");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("ololo","onSaveInstanceState");
+        outState.putString("savedString", result_field.getText().toString());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("ololo","onDestroy");
     }
 
     public void onNumberClick(View view) {
@@ -102,39 +135,28 @@ public class MainActivity extends AppCompatActivity {
                         case "/":
                             divide();
                             break;
-                        case "=":
-                            equal();
-                            break;
+                    }
                     }
                 }
         }
-    }
 
     //todo            firstValues + operation + secondValues + "=" + result
     //todo            append("=" + result.toString());
 
     public void plus() {
         result = firstValues + secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
+        result_field.setText(result.toString());
     }
-
     public void divide() {
         result = firstValues / secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
-
+        result_field.setText(result.toString());
     }
     public void multiply2() {
         result = firstValues * secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
+        result_field.setText(result.toString());
     }
     public void minus() {
         result = firstValues - secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
+        result_field.setText(result.toString());
+        }
     }
-    public void equal() {
-        result = null;
-        result_field.setText("resultat");
-    }
-
-
-}
