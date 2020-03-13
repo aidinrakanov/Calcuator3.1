@@ -2,6 +2,7 @@ package com.example.calcuator31;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         result_field = findViewById(R.id.result1);
         if (savedInstanceState != null){
             savedString = savedInstanceState.getString("savedString");
-
             result_field.setText(savedString);
             Log.d("ololo","onCreate"+ savedString);
         }
@@ -159,4 +159,13 @@ public class MainActivity extends AppCompatActivity {
         result = firstValues - secondValues;
         result_field.setText(result.toString());
         }
+
+    public void saver(View view) {
+        String text =result_field.getText().toString();
+        Intent intent= new Intent();
+        intent.putExtra("resultat",text);
+        setResult(RESULT_OK, intent);
+        finish();
+
     }
+}
