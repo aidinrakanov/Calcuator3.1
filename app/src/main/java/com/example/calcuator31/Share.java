@@ -17,23 +17,24 @@ public class Share extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        res=findViewById(R.id.result2);
-        if (savedInstanceState != null){
+        res = findViewById(R.id.result2);
+        if (savedInstanceState != null) {
             savedString = savedInstanceState.getString("savedString");
             res.setText(savedString);
-            Log.d("ololo","onCreate"+ savedString);
+            Log.d("ololo", "onCreate" + savedString);
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("ololo","onStart");
+        Log.d("ololo", "onStart");
     }
+
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("ololo","onStop");
+        Log.d("ololo", "onStop");
     }
 
     @Override
@@ -45,24 +46,31 @@ public class Share extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("ololo","onDestroy");
+        Log.d("ololo", "onDestroy");
     }
 
     public void toCalculator(View view) {
         Intent intent = new Intent(Share.this, MainActivity.class);
-        startActivityForResult(intent,11);
+        startActivityForResult(intent, 11);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode==11 && resultCode == RESULT_OK){
+        if (requestCode == 11 && resultCode == RESULT_OK) {
             String result = data.getStringExtra("resultat");
             res.setText(result);
         }
     }
 
     public void shareToTelegram(View view) {
-
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, res.getText().toString());
+        intent.setType("text/plain");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }
