@@ -1,167 +1,69 @@
 package com.example.calcuator31;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
 import android.content.pm.ActivityInfo;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView result_field;
-    Double firstValues;
-    Double secondValues;
-    Double result;
-    String operation;
-    String savedString;
+    ShareFragment shareFragment;
+    String text;
+    Button calc;
+    Button share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        result_field = findViewById(R.id.result1);
-        if (savedInstanceState != null){
-            savedString = savedInstanceState.getString("savedString");
-            result_field.setText(savedString);
-            Log.d("ololo","onCreate"+ savedString);
-        }
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-    @Override
-    protected void onStop() {
-        super.onStop();
+
+        calc = findViewById(R.id.CalcFrag);
+        share = findViewById(R.id.ShareFrag);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("savedString", result_field.getText().toString());
+
+    public void FragmentManager(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_layout, fragment);
+        fragmentTransaction.commit();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void openCalc() {
+        FragmentManager(new FragmentCalculator());
     }
 
-    public void onNumberClick(View view) {
-        switch (view.getId()) {
+    public void openShare() {
+        if (text == null) {
+            FragmentManager(new ShareFragment());
+        } else if (text != null) {
+            shareFragment = new ShareFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("result", text);
 
-            case R.id.seven:
-                result_field.append("7");
-                break;
-            case R.id.eight:
-                result_field.append("8");
-                break;
-            case R.id.nine:
-                result_field.append("9");
-                break;
-            case R.id.four:
-                result_field.append("4");
-                break;
-            case R.id.five:
-                result_field.append("5");
-                break;
-            case R.id.six:
-                result_field.append("6");
-                break;
-            case R.id.one:
-                result_field.append("1");
-                break;
-            case R.id.two:
-                result_field.append("2");
-                break;
-            case R.id.three:
-                result_field.append("3");
-                break;
-            case R.id.zero:
-                result_field.append("0");
-                break;
-            case R.id.clear:
-                result_field.setText("");
-                break;
-            case R.id.dot:
-                result_field.append(".");
-                break;
+            shareFragment.setArguments(bundle);
+            FragmentManager(shareFragment);
         }
     }
 
-    public void onOperationClick(View view) {
-        switch (view.getId()) {
-            case R.id.plus:
-                operation = "+";
-                firstValues = Double.valueOf(result_field.getText().toString());
-                result_field.setText(firstValues + "+");
-                break;
-            case R.id.divide:
-                operation = "/";
-                firstValues = Double.valueOf(result_field.getText().toString());
-                result_field.setText(firstValues + "/");
-                break;
-            case R.id.minus:
-                operation = "-";
-                firstValues = Double.valueOf(result_field.getText().toString());
-                result_field.setText(firstValues + "-");
-                break;
-            case R.id.multiply2:
-                operation = "*";
-                firstValues = Double.valueOf(result_field.getText().toString());
-                result_field.setText(firstValues + "*");
-                break;
-                case R.id.equal:
-                if (operation != null) {
-                    String two = result_field.getText().toString().replace(firstValues + operation + "", "");
-                    secondValues = Double.valueOf(two);
+    public void sendNumber(String number) {
+        text = number;
+    }
 
-                    switch (operation) {
-                        case "+":
-                            plus();
-                            break;
-                        case "-":
-                            minus();
-                            break;
-                        case "*":
-                            multiply2();
-                            break;
-                        case "/":
-                            divide();
-                            break;
-                    }
-                    }
-                }
+    public void frg_btn(View view) {
+
+        switch (view.getId()){
+            case R.id.CalcFrag:
+            openCalc();
+            break;
+            case R.id.ShareFrag:
+            openShare();
+            break;
         }
-
-    //todo            firstValues + operation + secondValues + "=" + result
-    //todo            append("=" + result.toString());
-
-    public void plus() {
-        result = firstValues + secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
-    }
-    public void divide() {
-        result = firstValues / secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
-    }
-    public void multiply2() {
-        result = firstValues * secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
-    }
-    public void minus() {
-        result = firstValues - secondValues;
-        result_field.setText(firstValues + operation + secondValues + "=" + result);
-        }
-
-    public void saver(View view) {
-        String text =result_field.getText().toString();
-        Intent intent= new Intent();
-        intent.putExtra("resultat",text);
-        setResult(RESULT_OK, intent);
-        finish();
-
     }
 }
