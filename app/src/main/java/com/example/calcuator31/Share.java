@@ -28,13 +28,11 @@ public class Share extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("ololo", "onStart");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("ololo", "onStop");
     }
 
     @Override
@@ -46,7 +44,6 @@ public class Share extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("ololo", "onDestroy");
     }
 
     public void toCalculator(View view) {
@@ -59,6 +56,9 @@ public class Share extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 11 && resultCode == RESULT_OK) {
+            String result = data.getStringExtra("resultat");
+            res.setText(result);
+        } if (requestCode == 11 && resultCode == RESULT_OK) {
             String result = data.getStringExtra("resultat");
             res.setText(result);
         }

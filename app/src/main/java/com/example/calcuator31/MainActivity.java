@@ -32,25 +32,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("ololo","onStart");
     }
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("ololo","onStop");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("ololo","onSaveInstanceState");
         outState.putString("savedString", result_field.getText().toString());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("ololo","onDestroy");
     }
 
     public void onNumberClick(View view) {
@@ -145,19 +141,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void plus() {
         result = firstValues + secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
     }
     public void divide() {
         result = firstValues / secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
     }
     public void multiply2() {
         result = firstValues * secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
     }
     public void minus() {
         result = firstValues - secondValues;
-        result_field.setText(result.toString());
+        result_field.setText(firstValues + operation + secondValues + "=" + result);
         }
 
     public void saver(View view) {
